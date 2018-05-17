@@ -8,6 +8,9 @@ default: all
 init:
 	# install git-flow
 	git flow init -d
+	# install jq
+	echo '' | jq .
+	echo '' | yq . || pip install yq
 
 prep:
 	echo prep
