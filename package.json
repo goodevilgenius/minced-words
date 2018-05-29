@@ -1,0 +1,13 @@
+{
+  "name": "minced-words",
+  "version": "0.0.1",
+  "description": "Source for the Minced Words podcast",
+  "main": "index.js",
+  "repository": "git@github.com:goodevilgenius/minced-words.git",
+  "author": "Dan Jones <danjones@goodevilgenius.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "node-sass": "^4.9.0"
+  }
+}

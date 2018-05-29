@@ -11,6 +11,8 @@ init:
 	# install jq
 	echo '' | jq .
 	echo '' | yq . || pip install yq
+	# install yarn (npm install -g yarn)
+	yarn install
 
 new-post:
 	new.sh "$(TITLE)"
@@ -20,6 +22,8 @@ prep:
 
 build: prep
 	echo build
+	if [ ! -d build ]; then mkdir build; fi
+	node-sass --include-path ./node_modules scss/*.scss > build/app.css
 
 deploy: build
 	echo deploy
