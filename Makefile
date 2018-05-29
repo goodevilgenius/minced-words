@@ -1,4 +1,4 @@
-export PATH := $(HOME)/bin:$(PATH):/usr/local/bin:./node_modules/.bin
+export PATH := ./scripts:$(HOME)/bin:$(PATH):/usr/local/bin:./node_modules/.bin
 
 POINT=$(shell echo $$((RANDOM%79+128512)) )
 EMOJI=$(shell printf '%x' $(POINT) )
@@ -11,6 +11,9 @@ init:
 	# install jq
 	echo '' | jq .
 	echo '' | yq . || pip install yq
+
+new-post:
+	new.sh "$(TITLE)"
 
 prep:
 	echo prep
