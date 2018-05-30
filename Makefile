@@ -21,9 +21,10 @@ prep:
 	echo prep
 
 build: prep
-	echo build
-	if [ ! -d build ]; then mkdir build; fi
+	rm -rf build
+	mkdir build
 	node-sass --include-path ./node_modules scss/*.scss > build/app.css
+	webpack
 
 deploy: build
 	echo deploy
