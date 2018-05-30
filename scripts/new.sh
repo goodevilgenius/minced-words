@@ -9,12 +9,12 @@ DATE=$(date +%Y-%m-%d)
 TITLE="$1"
 [ -z "$TITLE" ] && TITLE="New Title"
 SLUG=$(echo "$TITLE" | sed -E -e 's/ +/-/g' -e 's/[^A-Za-z0-9-]//g' | tr A-Z a-z)
-FILE=_posts/${DATE}-${SLUG}.yml
+FILE=posts/${DATE}-${SLUG}.yml
 let i=0
 
 while [ -f "$FILE" ]; do
     let i++
-    FILE=_posts/${DATE}-${SLUG}-${i}.yml
+    FILE=posts/${DATE}-${SLUG}-${i}.yml
 done
 
 echo "File: $FILE"
