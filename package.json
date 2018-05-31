@@ -7,7 +7,9 @@
   "author": "Dan Jones <danjones@goodevilgenius.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "bootstrap": "^4.1.1",
+    "handlebars": "^4.0.11",
     "jquery": "^3.3.1",
     "node-sass": "^4.9.0",
     "popper.js": "^1.14.3",

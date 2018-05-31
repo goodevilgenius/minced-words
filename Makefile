@@ -17,19 +17,17 @@ init:
 new-post:
 	new.sh "$(TITLE)"
 
-prep:
-	echo prep
-
-build: prep
+build:
 	rm -rf build
 	mkdir build
 	node-sass --include-path ./node_modules scss/*.scss > build/app.css
 	webpack
+	node scripts/build.js
 
 deploy: build
 	echo deploy
 
 clean:
-	echo clean
+	rm -rf build
 
 all: deploy clean
