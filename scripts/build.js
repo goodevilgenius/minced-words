@@ -11,20 +11,25 @@ const yaml = Promise.promisifyAll(require('node-yaml'));
 let mainTemplate = function () {};
 let site = {};
 
+// Read config
 yaml.readAsync(path.join(process.cwd(), 'config.yml'))
     .then(function (siteConfig) {
         site = siteConfig;
+
+        // Read main template
         return fs.readFileAsync(path.join(process.cwd(), 'templates', 'main.hbs'), 'utf8');
     })
     .then(function (template) {
+        // Compile main template
         mainTemplate = hbs.compile(template);
 
-        return Promise.resolve(mainTemplate);
+        return Promise.resolve(true);
     })
-    .then(function (main) {
+    .then(function () {
+        // Write index
         return fs.writeFileAsync(
             path.join('build', 'index.html'),
-            main({site: site, content: '<h1>Hi</h1>'})
+            mainTemplate({site: site, content: '<h1>Hi</h1>'})
         );
     })
     .catch(function (err) {
