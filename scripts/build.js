@@ -11,7 +11,7 @@ const yaml = Promise.promisifyAll(require('node-yaml'));
 let mainTemplate = function () {};
 let site = {};
 
-yaml.readAsync(path.join(process.cwd(), '_config.yml'))
+yaml.readAsync(path.join(process.cwd(), 'config.yml'))
     .then(function (siteConfig) {
         site = siteConfig;
         return fs.readFileAsync(path.join(process.cwd(), 'templates', 'main.hbs'), 'utf8');
