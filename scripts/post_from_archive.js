@@ -13,6 +13,15 @@ const yaml = Promise.promisifyAll(require('node-yaml'));
 const url = process.argv[2];
 const source = path.basename(url);
 const dir = path.dirname(url);
+const audio_exts = {
+    flac: 'audio/flac',
+    wav: 'audio/wav',
+    ogg: 'audio/ogg',
+    opus: 'audio/ogg; codecs=opus',
+    mp3: 'audio/mpeg',
+    m4a: 'audio/mp4',
+    aac: 'audio/aac'
+};
 
 let files = [];
 let meta = {};
@@ -42,16 +51,11 @@ rp(url)
             file.name.endsWith('.xml')
         ).shift();
 
-        console.log(files);
-        
-        console.log(meta);
-        
         return rp(`${dir}/${meta.name}`);
     }).then(function (metaString) {
         return parseString(metaString);
     }).then(function (metaObject) {
         meta = mapXml(metaObject.metadata);
-        console.log(meta);
 
         let dateStr = meta.publicdate || meta.addeddate;
         if (!dateStr.endsWith('Z')) dateStr = `${dateStr}Z`;
@@ -78,6 +82,20 @@ rp(url)
             language: meta.language,
             enclosures: []
         };
+
+        files.forEach(function (file) {
+            let fileExt = Object.keys(audio_exts).filter(function (ext) {
+                return file.name.toLowerCase().endsWith(ext);
+            }).shift();
+            if (!fileExt) return;
+
+            file.url = `${dir}/${file.name}`;
+            file.type = audio_exts[fileExt];
+            file.duration = file.length.replace(/\./g, ':');
+            file.length = parseInt(file.size, 10);
+
+            post.enclosures.push(file);
+        });
 
         let filepath = path.join(process.cwd(), 'posts', filename);
 
