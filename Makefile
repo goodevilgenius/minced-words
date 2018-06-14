@@ -17,6 +17,9 @@ init:
 new-post:
 	new.sh "$(TITLE)"
 
+import-archive:
+	node scripts/post_from_archive.js "$(URL)"
+
 build:
 	rm -rf build
 	mkdir build
