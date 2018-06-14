@@ -37,6 +37,9 @@ yaml.readAsync(path.join(process.cwd(), 'config.yml'))
     })
     .then(function (parsedPosts) {
         posts = parsedPosts;
+        posts.sort(function (a, b) {
+            return (new Date(b.date)) - (new Date(a.date));
+        });
 
         return Promise.resolve(true);
     })
