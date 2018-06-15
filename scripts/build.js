@@ -8,30 +8,44 @@ const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const yaml = Promise.promisifyAll(require('node-yaml'));
 
-let mainTemplate = function () {};
+// directories
+const root = process.cwd();
+const templateDir = path.join(root, 'templates');
+const postsDir = path.join(root, 'posts');
+
+let templates = {};
 let site = {};
 let posts = [];
 
 // Read config
-yaml.readAsync(path.join(process.cwd(), 'config.yml'))
+yaml.readAsync(path.join(root, 'config.yml'))
     .then(function (siteConfig) {
         site = siteConfig;
 
-        // Read main template
-        return fs.readFileAsync(path.join(process.cwd(), 'templates', 'main.hbs'), 'utf8');
+        // read all templates
+        return fs.readdirAsync(templateDir);
     })
-    .then(function (template) {
+    .then(function (files) {
+        files = files.filter(file => file.substr(-4) === '.hbs');
+        return Promise.map(files, function (file) {
+            return fs.readFileAsync(path.join(templateDir, file), 'utf8')
+                .then(data => Promise.resolve({
+                    file: file.substr(0, file.length - 4),
+                    data: data
+                }));
+        });
+    })
+    .then(function (templatesData) {
         // Compile main template
-        mainTemplate = hbs.compile(template);
+        templatesData.forEach(temp => templates[temp.file] = hbs.compile(temp.data));
 
         // Read posts
-        return fs.readdirAsync(path.join(process.cwd(), 'posts'));
+        return fs.readdirAsync(postsDir);
     })
     .then(function (files) {
         // Parse posts
         return Promise.map(files, file => yaml.readAsync(path.join(
-            process.cwd(),
-            'posts',
+            postsDir,
             file
         )));
     })
@@ -47,9 +61,9 @@ yaml.readAsync(path.join(process.cwd(), 'config.yml'))
         // Write index
         return fs.writeFileAsync(
             path.join('build', 'index.html'),
-            mainTemplate({
+            templates.main({
                 site: site,
-                content: '<h1>Hi</h1>\n' + JSON.stringify(posts)
+                content: '<h1>Hi</h1>\n<pre>' + JSON.stringify(posts) + '</pre>'
             })
         );
     })
