@@ -12,10 +12,15 @@ const yaml = Promise.promisifyAll(require('node-yaml'));
 const root = process.cwd();
 const templateDir = path.join(root, 'templates');
 const postsDir = path.join(root, 'posts');
+const buildDir = path.join(root, 'build');
 
 let templates = {};
 let site = {};
 let posts = [];
+
+hbs.registerHelper('call', function (object, method, ...params) {
+    return object[method](...params);
+});
 
 // Read config
 yaml.readAsync(path.join(root, 'config.yml'))
@@ -60,10 +65,19 @@ yaml.readAsync(path.join(root, 'config.yml'))
     .then(function () {
         // Write index
         return fs.writeFileAsync(
-            path.join('build', 'index.html'),
+            path.join(buildDir, 'index.html'),
             templates.main({
                 site: site,
                 content: '<h1>Hi</h1>\n<pre>' + JSON.stringify(posts) + '</pre>'
+            })
+        );
+    })
+    .then(function () {
+        return fs.writeFileAsync(
+            path.join(buildDir, 'feed.xml'),
+            templates.feed({
+                site: site,
+                now: new Date()
             })
         );
     })

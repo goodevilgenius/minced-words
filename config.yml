@@ -1,4 +1,9 @@
 title: Minced Words
+subtitle: ""
+description: A spoken word podcast of dramatic perormances
+author:
+    name: Dan Jones
+    email: danjones@goodevilgenius.org
 
 pagination:
     per_page: 10

@@ -1,0 +1,44 @@
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/" version="2.0">
+<channel>
+    <title>{{ site.title }}</title>
+    <link>https://www.example.com</link>
+    <image>
+        <url>http://www.example.com/image3000x3000.png</url>
+        <title>{{ site.title }}</title>
+        <link>https://www.example.com</link>
+    </image>
+    <description>{{ site.description }}</description>
+    <language>en-us</language>
+    <copyright>{{ site.author.name }} copyright {{ call now "getFullYear" }}</copyright>
+    <atom:link href="https://example.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>{{ call now "toISOString" }}</lastBuildDate>
+    <itunes:author>{{ site.author.name }}</itunes:author>
+    <itunes:summary>{{ site.description }}</itunes:summary>
+    <itunes:subtitle>{{ site.subtitle }}</itunes:subtitle>
+    <itunes:owner>
+        <itunes:name>{{ site.author.name }}</itunes:name>
+        <itunes:email>{{ site.author.email }}</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>No</itunes:explicit>
+    <itunes:keywords>comma,separated,key,words </itunes:keywords>
+    <itunes:image href="http://www.example.com/image3000x3000.png"/>
+    <rawvoice:rating>TV-G</rawvoice:rating>
+    <rawvoice:location>Everywhere, Earth</rawvoice:location>
+    <rawvoice:frequency>Monthly</rawvoice:frequency>
+    <itunes:category text="Technology"/>
+    <pubDate>Fri, 01 Jan 2016 06:00:00 PDT</pubDate>
+    <item>
+        <title>Episode Name 2</title>
+        <link> http://podcast.example.com/episode2.mp4 </link>
+        <pubDate>Sat, 02 Jan 2016 16:00:00 PDT</pubDate>
+        <description> The full length episode 2 description </description>
+        <enclosure url="http://podcasts.example.com/episode.mp4" length="36715125" type="audio/mpeg"/>
+        <guid> http://podcast.example.com/episode2.mp4 </guid>
+        <itunes:duration>19:07</itunes:duration>
+        <itunes:summary> The full length episode 2 description </itunes:summary>
+        <itunes:image href="http://www.example.com/image3000x3000.png"/>
+        <itunes:keywords> comma,separated,key,words </itunes:keywords>
+        <itunes:explicit>no</itunes:explicit>
+    </item>
+</channel>
+</rss>
