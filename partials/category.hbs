@@ -1,0 +1,7 @@
+{{#if this.children}}
+<itunes:category text="{{this.name}}">
+    {{#each this.children}}{{> category}}{{/each}}    
+</itunes:category>
+{{else}}
+<itunes:category text="{{this.name}}"/>
+{{/if}}

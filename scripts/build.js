@@ -11,6 +11,7 @@ const yaml = Promise.promisifyAll(require('node-yaml'));
 // directories
 const root = process.cwd();
 const templateDir = path.join(root, 'templates');
+const partialDir = path.join(root, 'partials');
 const postsDir = path.join(root, 'posts');
 const buildDir = path.join(root, 'build');
 
@@ -26,6 +27,17 @@ hbs.registerHelper('call', function (object, method, ...params) {
 yaml.readAsync(path.join(root, 'config.yml'))
     .then(function (siteConfig) {
         site = siteConfig;
+
+        // set some defaults for site
+        if ('keywords' in site) site.keywordsList = site.keywords.join(',');
+        if ('image' in site) {
+            if (site.image.indexOf('http') < 0) {
+                site.image = `${site.url}/${site.root}/${site.image}`;
+            }
+        }
+
+        if (!('frequency' in site)) site.frequency = 'Monthly';
+        if (!('rating' in site)) site.rating = 'TV-PG';
 
         // read all templates
         return fs.readdirAsync(templateDir);
@@ -44,9 +56,18 @@ yaml.readAsync(path.join(root, 'config.yml'))
         // Compile main template
         templatesData.forEach(temp => templates[temp.file] = hbs.compile(temp.data));
 
-        // Read posts
-        return fs.readdirAsync(postsDir);
-    })
+        // read partials
+        return fs.readdirAsync(partialDir);
+    }).then(function (files) {
+        files = files.filter(file => file.substr(-4) === '.hbs');
+        return Promise.map(files, function (file) {
+            return fs.readFileAsync(path.join(partialDir, file), 'utf8')
+                .then(function (data) {
+                    hbs.registerHelper(file.substr(0, file.length - 4), data);
+                    return Promise.resolve();
+                });
+        });
+    }).then(() => fs.readdirAsync(postsDir))
     .then(function (files) {
         // Parse posts
         return Promise.map(files, file => yaml.readAsync(path.join(
@@ -77,6 +98,8 @@ yaml.readAsync(path.join(root, 'config.yml'))
             path.join(buildDir, 'feed.xml'),
             templates.feed({
                 site: site,
+                posts: posts,
+                lastPost: posts[0],
                 now: new Date()
             })
         );
