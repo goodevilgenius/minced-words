@@ -63,7 +63,8 @@ yaml.readAsync(path.join(root, 'config.yml'))
         return Promise.map(files, function (file) {
             return fs.readFileAsync(path.join(partialDir, file), 'utf8')
                 .then(function (data) {
-                    hbs.registerHelper(file.substr(0, file.length - 4), data);
+                    const name = file.substr(0, file.length - 4);
+                    hbs.registerPartial(name, data);
                     return Promise.resolve();
                 });
         });
