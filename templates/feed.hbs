@@ -26,18 +26,20 @@
     <rawvoice:frequency>{{ site.frequency }}</rawvoice:frequency>
     {{#each site.categories}}{{> category}}{{/each}}
     <pubDate>{{ lastPost.date }}</pubDate>
+    {{#each posts }}
     <item>
-        <title>Episode Name 2</title>
-        <link> http://podcast.example.com/episode2.mp4 </link>
-        <pubDate>Sat, 02 Jan 2016 16:00:00 PDT</pubDate>
-        <description> The full length episode 2 description </description>
-        <enclosure url="http://podcasts.example.com/episode.mp4" length="36715125" type="audio/mpeg"/>
-        <guid> http://podcast.example.com/episode2.mp4 </guid>
-        <itunes:duration>19:07</itunes:duration>
-        <itunes:summary> The full length episode 2 description </itunes:summary>
+        <title>{{ this.title }}</title>
+        <link>{{ ../site.url }}{{ ../site.root }}/{{ this.slug }}</link>
+        <pubDate>{{ this.date }}</pubDate>
+        <description>{{ this.description }}</description>
+        {{#each this.enclosures }}<enclosure url="{{ this.url }}" length="{{ this.length }}" type="{{ this.type }}"/>{{/each}}
+        <guid>{{ ../site.url }}{{ ../site.root }}/{{ this.slug }}</guid>
+        <itunes:duration>{{ this.duration }}</itunes:duration>
+        <itunes:summary>{{ this.description }}</itunes:summary>
         <itunes:image href="http://www.example.com/image3000x3000.png"/>
         <itunes:keywords> comma,separated,key,words </itunes:keywords>
         <itunes:explicit>no</itunes:explicit>
     </item>
+    {{/each}}
 </channel>
 </rss>
