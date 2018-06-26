@@ -1,5 +1,8 @@
 title: Test
 date: 2018-06-01
+enclosures:
+    - name: foobar.flac
+    - name: something.mp4
 description: |
     Content for this post.
 

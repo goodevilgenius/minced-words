@@ -1,0 +1,54 @@
+archive_id: TestMix_201806
+author:
+  name: Dan Jones
+  email: danjones@goodevilgenius.org
+date: '2018-06-03T18:08:41.000Z'
+title: Test Mix
+description: 'Test audio with car screech, flac upload'
+language: eng
+enclosures:
+  - mtime: '1528049320'
+    size: '877184'
+    md5: 22b3661cdf3b633e5ec314559275bb81
+    crc32: 61c02e2c
+    sha1: acc0da59d60f90d1c65e73a51873e04b3f25ca13
+    format: Flac
+    length: 877184
+    height: '0'
+    width: '0'
+    name: TestMix.flac
+    source: original
+    url: 'https://ia801507.us.archive.org/10/items/TestMix_201806/TestMix.flac'
+    type: audio/flac
+    duration: '10:52'
+  - bitrate: '136'
+    length: 180755
+    format: VBR MP3
+    original: TestMix.flac
+    mtime: '1528049371'
+    size: '180755'
+    md5: 1f4abd73930b139f6bfd51cf576ffb25
+    crc32: 8c51fb50
+    sha1: 89b2741025f0506b1b5a24b339051e969c512c48
+    height: '0'
+    width: '0'
+    name: TestMix.mp3
+    source: derivative
+    url: 'https://ia801507.us.archive.org/10/items/TestMix_201806/TestMix.mp3'
+    type: audio/mpeg
+    duration: '00:10'
+  - format: Ogg Vorbis
+    original: TestMix.flac
+    mtime: '1528049373'
+    size: '98945'
+    md5: 19768fe2e7256ccb229e3e612f2afbad
+    crc32: b0bc9be9
+    sha1: 86a96cdbb830b34f92b0907aab9fd67af7248c73
+    length: 98945
+    height: '0'
+    width: '0'
+    name: TestMix.ogg
+    source: derivative
+    url: 'https://ia801507.us.archive.org/10/items/TestMix_201806/TestMix.ogg'
+    type: audio/ogg
+    duration: '10:52'

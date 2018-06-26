@@ -18,6 +18,7 @@ const buildDir = path.join(root, 'build');
 let templates = {};
 let site = {};
 let posts = [];
+let formats = [];
 
 hbs.registerHelper('call', function (object, method, ...params) {
     return object[method](...params);
@@ -94,6 +95,11 @@ yaml.readAsync(path.join(root, 'config.yml'))
         posts.sort(function (a, b) {
             return b.date - a.date;
         });
+
+        formats = posts.reduce(function (carry, post) {
+            return carry.concat(post.enclosures);
+        }, []).map(enc => enc.name.replace(/^.+\./, ''))
+        .filter((ext, idx, ar) => ar.indexOf(ext) === idx);
 
         return Promise.resolve(true);
     })
