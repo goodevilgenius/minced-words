@@ -30,7 +30,7 @@
     <item>
         <title>{{ this.title }}</title>
         <link>{{ ../site.url }}{{ ../site.root }}/{{ this.slug }}</link>
-        <pubDate>{{ this.date }}</pubDate>
+        <pubDate>{{ call this.date "toISOString" }}</pubDate>
         <description>{{ this.description }}</description>
         {{#each this.enclosures }}<enclosure url="{{ this.url }}" length="{{ this.length }}" type="{{ this.type }}"/>{{/each}}
         <guid>{{ ../site.url }}{{ ../site.root }}/{{ this.slug }}</guid>

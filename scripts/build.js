@@ -78,8 +78,21 @@ yaml.readAsync(path.join(root, 'config.yml'))
     })
     .then(function (parsedPosts) {
         posts = parsedPosts;
+        posts = posts.map(function (post) {
+            post.date = new Date(post.date);
+            if (!post.enclosures) post.enclosures = [];
+            post.duration = post.enclosures.reduce(function (carry, enc) {
+                if (enc.duration) {
+                    return enc.duration;
+                }
+
+                return carry;
+            }, 0);
+
+            return post;
+        });
         posts.sort(function (a, b) {
-            return (new Date(b.date)) - (new Date(a.date));
+            return b.date - a.date;
         });
 
         return Promise.resolve(true);

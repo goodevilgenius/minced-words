@@ -15,7 +15,7 @@ init:
 	yarn install
 
 new-post:
-	new.sh "$(TITLE)"
+	bash new.sh "$(TITLE)"
 
 import-archive:
 	node scripts/post_from_archive.js "$(URL)"
