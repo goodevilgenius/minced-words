@@ -19,6 +19,7 @@ let templates = {};
 let site = {};
 let posts = [];
 let formats = [];
+let feeds = {};
 
 hbs.registerHelper('call', function (object, method, ...params) {
     return object[method](...params);
@@ -98,22 +99,15 @@ yaml.readAsync(path.join(root, 'config.yml'))
 
         formats = posts.reduce(function (carry, post) {
             return carry.concat(post.enclosures);
-        }, []).map(enc => enc.name.replace(/^.+\./, ''))
+        }, []).map(enc => enc.name.replace(/^.+\./, '').toLowerCase())
         .filter((ext, idx, ar) => ar.indexOf(ext) === idx);
 
         return Promise.resolve(true);
     })
     .then(function () {
-        // Write index
-        return fs.writeFileAsync(
-            path.join(buildDir, 'index.html'),
-            templates.main({
-                site: site,
-                content: '<h1>Hi</h1>\n<pre>' + JSON.stringify(posts) + '</pre>'
-            })
-        );
-    })
-    .then(function () {
+        // Write main feed
+        feeds['Main Feed'] = 'feed.xml';
+
         return fs.writeFileAsync(
             path.join(buildDir, 'feed.xml'),
             templates.feed({
@@ -124,9 +118,53 @@ yaml.readAsync(path.join(root, 'config.yml'))
             })
         );
     })
+    .then(function () {
+        // Write format feeds
+        return Promise.map(formats, function (format) {
+            let name = `${format.toUpperCase()} Feed`;
+
+            let newSite = JSON.parse(JSON.stringify(site));
+            newSite.title = `${newSite.title} - ${name}`;
+
+            let file = `feed.${format}.xml`;
+            feeds[name] =  file;
+
+            let thesePosts = posts.map(function (post) {
+                // Clone it
+                let newPost = JSON.parse(JSON.stringify(post));
+                newPost.date = new Date(newPost.date);
+
+                if (!('enclosures' in newPost)) newPost.enclosures = [];
+                newPost.enclosures = newPost.enclosures.filter(enc => enc.name.endsWith(format));
+
+                return newPost;
+            }).filter(post => post.enclosures.length > 0);
+
+            return fs.writeFileAsync(
+                path.join(buildDir, file),
+                templates.feed({
+                    site: newSite,
+                    posts: thesePosts,
+                    lastPost: thesePosts[0],
+                    now: new Date()
+                })
+            );
+        });
+    })
+    .then(function () {
+        // Write index
+        return fs.writeFileAsync(
+            path.join(buildDir, 'index.html'),
+            templates.main({
+                site: site,
+                feeds: feeds,
+                content: '<h1>Hi</h1>\n<pre>' + JSON.stringify(posts) + '</pre>\n<pre>' + JSON.stringify(feeds) + '</pre>'
+            })
+        );
+    })
     .catch(function (err) {
         console.error('Failed to build site');
         console.error(err.message);
+        console.error(err.stack);
         process.exit(1);
     });
-
