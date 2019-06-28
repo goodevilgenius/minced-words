@@ -9,3 +9,4 @@ update_configs:
       - javascript
     default_reviewers:
       - goodevilgenius
+    target_branch: develop
