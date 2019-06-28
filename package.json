@@ -7,7 +7,7 @@
   "author": "Dan Jones <danjones@goodevilgenius.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.5",
     "bootstrap": "^4.3.1",
     "handlebars": "^4.1.2",
     "jquery": "^3.4.0",
