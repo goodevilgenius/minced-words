@@ -1,3 +1,5 @@
+.PHONY: init new-post import-archive build deploy clean all
+
 export PATH := ./scripts:$(HOME)/bin:$(PATH):/usr/local/bin:./node_modules/.bin
 
 POINT=$(shell echo $$((RANDOM%79+128512)) )
