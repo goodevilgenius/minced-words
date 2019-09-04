@@ -22,8 +22,7 @@ new-post:
 import-archive:
 	node scripts/post_from_archive.js "$(URL)"
 
-build:
-	rm -rf build
+build: clean
 	mkdir build
 	node-sass --include-path ./node_modules scss/*.scss > build/app.css
 	webpack
