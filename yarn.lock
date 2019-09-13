@@ -3631,9 +3631,9 @@ webpack-sources@^1.4.0, webpack-sources@^1.4.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.39.3:
-  version "4.39.3"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.39.3.tgz#a02179d1032156b713b6ec2da7e0df9d037def50"
+webpack@^4.40.1:
+  version "4.40.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.40.1.tgz#26ec01fc9ee7ea5ab5ec1d4ab95cb185ac20c116"
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"
