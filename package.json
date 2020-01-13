@@ -9,7 +9,7 @@
   "dependencies": {
     "bluebird": "^3.7.1",
     "bootstrap": "^4.3.1",
-    "handlebars": "^4.4.5",
+    "handlebars": "^4.7.2",
     "jquery": "^3.4.0",
     "node-sass": "^4.13.0",
     "node-yaml": "^3.2.0",
